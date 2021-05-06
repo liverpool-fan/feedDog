@@ -48,17 +48,19 @@ function draw() {
  
   //write code to display text lastFed time here
   fedTime = database.ref ('feedTime')
-  fedTime.on("value", function(date){
+  fedTime.on("value", function(data){
     lastFed = data.val()
   })
+  textSize(30)
+  fill("red")
   if(lastFed>=12){
-    text("lastFeed:"+lastFed+"PM",300,50)
+    text("lastFeed:"+lastFed%12+"PM",200,50)
   }
  else if(lastFed === 0){
-  text("lastFeed:12 AM",300,50)
+  text("lastFeed:12 AM",200,50)
  }
  else{
-  text("lastFeed:"+lastFed+"AM",300,50)
+  text("lastFeed:"+lastFed+"AM",200,50)
  }
   drawSprites();
 }
@@ -81,6 +83,10 @@ if(food_stock_Val <=0){
 else {
   foodObj.updateFoodStock(food_stock_Val -1)
 }
+database.ref('/').update({ 
+  food:foodObj.getFoodStock(),
+  feedTime:hour()
+})
 }
 
 //function to add food in stock
